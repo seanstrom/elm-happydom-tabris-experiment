@@ -2,4 +2,4 @@
 /build/
 node_modules/
 elm-stuff/
-elm-dist/bundle.js
+src/elm-dist/elm-bundle.js
