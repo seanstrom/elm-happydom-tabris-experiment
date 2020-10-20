@@ -11,6 +11,15 @@ First install project dependencies:
 npm install
 ```
 
+## Build Elm Source
+
+Next we need to run a node script for building the Elm source code.
+From the project root:
+
+```
+node compile-elm-to-bundle.js
+```
+
 ## Run
 
 Then in the project directory, type:
