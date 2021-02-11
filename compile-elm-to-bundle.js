@@ -3,7 +3,7 @@ const { compileToString } = require('node-elm-compiler');
 
 /**
  * Note: We save the compilation into the `src` directory to avoid unusual
- * behavior from the `tabris` server. Attempting to move it the bundle file may
+ * behavior from the `tabris` server. Attempting to move the bundle file may
  * silently break the server, causing the app not to update.
  */
 compileToString(
