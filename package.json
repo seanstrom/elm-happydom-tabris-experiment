@@ -9,7 +9,7 @@
     "start": "tabris serve -a -w"
   },
   "dependencies": {
-    "happy-dom": "^1.7.2",
+    "happy-dom": "^2.11.2",
     "tabris": "~3.6.1",
     "vm-browserify": "^1.1.2",
     "vm-shim": "0.0.6"
