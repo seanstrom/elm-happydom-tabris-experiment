@@ -41,6 +41,7 @@ init =
 type Msg
   = Increment
   | Decrement
+  | Reset
 
 
 update : Msg -> Model -> Model
@@ -52,6 +53,9 @@ update msg model =
     Decrement ->
       model - 1
 
+    Reset ->
+      init
+
 
 
 -- VIEW
@@ -59,19 +63,32 @@ update msg model =
 
 onIncrement: Attribute Msg
 onIncrement =
-  on "tap-increment" (Decode.succeed Increment)
+  on "tap-button" (Decode.succeed Increment)
 
 
 onDecrement: Attribute Msg
 onDecrement =
-  on "tap-decrement" (Decode.succeed Decrement)
+  on "tap-button" (Decode.succeed Decrement)
+
+onReset: Attribute Msg
+onReset =
+  on "tap-button" (Decode.succeed Reset)
 
 
 view : Model -> Html Msg
 view model =
-  node "x-yay"
-    [ attribute "count" (String.fromInt model)
-    , onIncrement
-    , onDecrement
+  let
+    isEven = (modBy 2 model) == 0
+
+    maybeResetButton =
+      if isEven then
+        node "x-button" [ attribute "text" "Reset", onReset ] []
+      else
+        node "noscript" [] []
+  in
+  node "x-app" []
+    [ node "x-button" [ attribute "text" "Increment", onIncrement ] []
+    , node "x-text" [ attribute "text" (String.fromInt model) ] []
+    , node "x-button" [ attribute "text" "Decrement", onDecrement ] []
+    , maybeResetButton
     ]
-    []
