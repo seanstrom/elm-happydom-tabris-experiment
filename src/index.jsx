@@ -1,11 +1,11 @@
 import { Window } from 'happy-dom'
 import { runInContext } from 'vm-shim'
 
+import Elm from './elm-dist/elm-bundle'
+
 import App from './App'
 import Text from './Text'
 import Button from './Button'
-
-import Elm from './elm-dist/elm-bundle'
 
 const withAttrs = BaseElement =>
   class extends BaseElement {
