@@ -1,5 +1,5 @@
+import { Window } from 'happy-dom'
 import { runInContext } from 'vm-shim'
-import Window from 'happy-dom/lib/window/Window'
 
 import App from './App'
 import Button from './Button'
