@@ -1,5 +1,4 @@
 import { runInContext } from 'vm-shim';
-import { createContext } from 'vm-browserify';
 import Window from 'happy-dom/lib/window/Window';
 
 import App from './App';
