@@ -2,8 +2,8 @@ import { Window } from 'happy-dom'
 import { runInContext } from 'vm-shim'
 
 import App from './App'
-import Button from './Button'
 import Text from './Text'
+import Button from './Button'
 
 import Elm from './elm-dist/elm-bundle'
 
