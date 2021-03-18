@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "happy-dom": "^2.11.2",
-    "tabris": "~3.6.1",
+    "tabris": "~3.7.1",
     "vm-browserify": "^1.1.2",
     "vm-shim": "0.0.6"
   },
