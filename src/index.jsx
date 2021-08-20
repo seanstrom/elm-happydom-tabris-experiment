@@ -151,11 +151,9 @@ function init () {
   }
 
   const context = {
-    ...window,
     Elm,
     app,
     window,
-    document,
     initElements,
   }
 
