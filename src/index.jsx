@@ -2,10 +2,7 @@ import { Window } from 'happy-dom'
 import { runInContext } from 'vm-shim'
 
 import Elm from './elm-dist/elm-bundle'
-
-import App from './App'
-import Text from './Text'
-import Button from './Button'
+import * as allElements from './elements'
 
 const withAttrs = BaseElement =>
   class extends BaseElement {
@@ -89,6 +86,20 @@ const withUnmount = BaseElement =>
     }
   }
 
+const initElements = params => {
+  const { app, window } = params
+  const { HTMLElement, customElements } = window
+
+  const mix = (klass, mixin) => mixin(klass)
+  const UIElement = app.mixins.reduce(mix, HTMLElement)
+
+  app.elements.forEach(rawElement => {
+    const name = rawElement.tagName
+    const element = rawElement.asElement(UIElement, window)
+    customElements.define(name, element)
+  })
+}
+
 function init () {
   /**
    * Create a virtual window and document for executing HTML and JavaScript.
@@ -113,7 +124,7 @@ function init () {
 
     if (hasRefNode && !isRefNodeDefined)
       return insertBefore.call(this, newNode, null)
-    
+
     return insertBefore.call(this, ...args)
   }
 
@@ -136,11 +147,7 @@ function init () {
       withUnmount,
     ],
 
-    controllers: {
-      App,
-      Button,
-      Text,
-    }
+    elements: Object.values(allElements)
   }
 
   const context = {
@@ -149,6 +156,7 @@ function init () {
     app,
     window,
     document,
+    initElements,
   }
 
 
@@ -179,46 +187,7 @@ function init () {
   `
 
   const customElementScript = `
-    const mix = (klass, mixin) => mixin(klass)
-    const { App, Button, ...ctrl } = app.controllers
-    const UIElement = app.mixins.reduce(mix, HTMLElement)
-
-    class AppElement extends UIElement {
-      init = App.init
-      update = App.update
-      render = App.render
-    }
-
-    class TextElement extends UIElement {
-      static get observedAttributes() {
-        return ['text']
-      }
-
-      init = ctrl.Text.init
-      update = ctrl.Text.update
-      render = ctrl.Text.render
-    }
-
-    class ButtonElement extends UIElement {
-      static get observedAttributes() {
-        return ['text']
-      }
-
-      init = Button.init
-      update = Button.update
-
-      render = (attrs, context) =>
-        Button.render(attrs, context, {
-          onTap: this.onTap
-        })
-
-      onTap = () =>
-        this.dispatchEvent(new CustomEvent('tap-button'))
-    }
-
-    customElements.define('x-app', AppElement)
-    customElements.define('x-button', ButtonElement)
-    customElements.define('x-text', TextElement)
+    initElements({ app, window })
   `
 
 

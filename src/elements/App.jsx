@@ -12,4 +12,13 @@ const App = {
   },
 }
 
+App.asElement = (UIElement) =>
+  class AppElement extends UIElement {
+    init = App.init
+    update = App.update
+    render = App.render
+  }
+
+App.tagName = 'x-app'
+
 export default App

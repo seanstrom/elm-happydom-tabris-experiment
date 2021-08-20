@@ -19,4 +19,20 @@ const Text = {
   },
 }
 
+Text.asElement = UIElement => {
+  console.log(Text.init)
+
+  return class TextElement extends UIElement {
+    static get observedAttributes() {
+      return ['text']
+    }
+
+    init = Text.init
+    update = Text.update
+    render = Text.render
+  }
+}
+
+Text.tagName = 'x-text'
+
 export default Text
