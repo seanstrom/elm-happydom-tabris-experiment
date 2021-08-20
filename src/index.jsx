@@ -136,7 +136,7 @@ function init () {
    * - all of window globals
    * - the compiled elm app
    * - the app bindings to the native ui
-  */ 
+  */
 
   const app = {
     mixins: [
