@@ -1,17 +1,17 @@
 module Main exposing (..)
 
--- Press buttons to increment and decrement a counter.
+-- Press a button to send a GET request for random cat GIFs.
 --
 -- Read how it works:
---   https://guide.elm-lang.org/architecture/buttons.html
+--   https://guide.elm-lang.org/effects/json.html
 --
 
-
 import Browser
-import Html exposing (Html, Attribute, button, div, text, node)
-import Html.Events exposing (on)
-import Html.Attributes exposing (attribute)
-import Json.Decode as Decode
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Http
+import Json.Decode as Decode exposing (Decoder, field, string)
 
 
 
@@ -19,19 +19,27 @@ import Json.Decode as Decode
 
 
 main =
-  Browser.sandbox { init = init, update = update, view = view }
+  Browser.element
+    { init = init
+    , update = update
+    , subscriptions = subscriptions
+    , view = view
+    }
 
 
 
 -- MODEL
 
 
-type alias Model = Int
+type Model
+  = Failure
+  | Loading
+  | Success String
 
 
-init : Model
-init =
-  0
+init : () -> (Model, Cmd Msg)
+init _ =
+  (Loading, getRandomCatGif)
 
 
 
@@ -39,56 +47,84 @@ init =
 
 
 type Msg
-  = Increment
-  | Decrement
-  | Reset
+  = MorePlease
+  | GotGif (Result Http.Error String)
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    Increment ->
-      model + 1
+    MorePlease ->
+      (Loading, getRandomCatGif)
 
-    Decrement ->
-      model - 1
+    GotGif result ->
+      case result of
+        Ok url ->
+          (Success url, Cmd.none)
 
-    Reset ->
-      init
+        Err _ ->
+          (Failure, Cmd.none)
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
 
 
 
 -- VIEW
 
-
-onIncrement: Attribute Msg
-onIncrement =
-  on "tap-button" (Decode.succeed Increment)
-
-
-onDecrement: Attribute Msg
-onDecrement =
-  on "tap-button" (Decode.succeed Decrement)
-
-onReset: Attribute Msg
-onReset =
-  on "tap-button" (Decode.succeed Reset)
+onTap : Msg -> Attribute Msg
+onTap msg =
+  on "tap-button" (Decode.succeed msg)
 
 
 view : Model -> Html Msg
 view model =
-  let
-    isEven = (modBy 2 model) == 0
-
-    maybeResetButton =
-      if isEven then
-        node "x-button" [ attribute "text" "Reset", onReset ] []
-      else
-        node "noscript" [] []
-  in
+  -- div []
+  --   [ h2 [] [ text "Random Cats" ]
+  --   , viewGif model
+  --   ]
   node "x-app" []
-    [ node "x-button" [ attribute "text" "Increment", onIncrement ] []
-    , node "x-text" [ attribute "text" (String.fromInt model) ] []
-    , node "x-button" [ attribute "text" "Decrement", onDecrement ] []
-    , maybeResetButton
+    [ node "x-text" [ attribute "text" "Random Cats" ] []
+    , viewGif model
     ]
+
+viewGif : Model -> Html Msg
+viewGif model =
+  case model of
+    Failure ->
+      node "x-app" []
+        [ node "x-text" [ attribute "text" "I could not load a random cat for some reason. " ] []
+        , node "x-button" [ attribute "text" "Try Again!", onTap MorePlease ] []
+        ]
+
+    Loading ->
+      node "x-text" [ attribute "text" "Loading..." ] []
+
+    Success url ->
+      node "x-app" []
+        [ node "x-button" [ attribute "text" "More Please!", onTap MorePlease ] []
+        , node "x-image" [ attribute "src" url ] []
+        ]
+
+
+
+-- HTTP
+
+
+getRandomCatGif : Cmd Msg
+getRandomCatGif =
+  Http.get
+    { url = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cat"
+    , expect = Http.expectJson GotGif gifDecoder
+    }
+
+
+gifDecoder : Decoder String
+gifDecoder =
+  field "data" (field "image_url" string)
