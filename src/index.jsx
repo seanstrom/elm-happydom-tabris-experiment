@@ -6,6 +6,7 @@ import Elm from './elm-dist/elm-bundle'
 import App from './App'
 import Text from './Text'
 import Button from './Button'
+import Image from './Image'
 
 const withAttrs = BaseElement =>
   class extends BaseElement {
@@ -113,19 +114,19 @@ function init () {
 
     if (hasRefNode && !isRefNodeDefined)
       return insertBefore.call(this, newNode, null)
-    
+
     return insertBefore.call(this, ...args)
   }
 
 
   /**
-   * Build context for web scripts to with:
+   * Build context for Javascript scripts with:
    * - window
    * - document
    * - all of window globals
    * - the compiled elm app
    * - the app bindings to the native ui
-  */ 
+  */
 
   const app = {
     mixins: [
@@ -140,6 +141,7 @@ function init () {
       App,
       Button,
       Text,
+      Image,
     }
   }
 
@@ -180,7 +182,7 @@ function init () {
 
   const customElementScript = `
     const mix = (klass, mixin) => mixin(klass)
-    const { App, Button, ...ctrl } = app.controllers
+    const { App, Button, Image, ...ctrl } = app.controllers
     const UIElement = app.mixins.reduce(mix, HTMLElement)
 
     class AppElement extends UIElement {
@@ -216,9 +218,20 @@ function init () {
         this.dispatchEvent(new CustomEvent('tap-button'))
     }
 
+    class ImageElement extends UIElement {
+      static get observedAttributes() {
+        return ['src']
+      }
+
+      init = Image.init
+      update = Image.update
+      render = Image.render
+    }
+
     customElements.define('x-app', AppElement)
     customElements.define('x-button', ButtonElement)
     customElements.define('x-text', TextElement)
+    customElements.define('x-image', ImageElement)
   `
 
 
