@@ -12,6 +12,7 @@ import {
   withUnmount,
 } from './mixins'
 
+
 const initElements = params => {
   const { app, window } = params
   const { HTMLElement, customElements } = window
@@ -25,6 +26,7 @@ const initElements = params => {
     customElements.define(name, element)
   })
 }
+
 
 function init () {
   /**
