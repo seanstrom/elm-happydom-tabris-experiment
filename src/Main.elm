@@ -8,7 +8,7 @@ module Main exposing (..)
 
 
 import Browser
-import Html exposing (Html, Attribute, button, div, text, node)
+import Html exposing (Html, Attribute, node)
 import Html.Events exposing (on)
 import Html.Attributes exposing (attribute)
 import Json.Decode as Decode
@@ -18,6 +18,7 @@ import Json.Decode as Decode
 -- MAIN
 
 
+main : Program () Model Msg
 main =
   Browser.sandbox { init = init, update = update, view = view }
 
@@ -61,19 +62,19 @@ update msg model =
 -- VIEW
 
 
-onIncrement: Attribute Msg
-onIncrement =
-  on "tap-button" (Decode.succeed Increment)
+onTap : msg -> Attribute msg
+onTap msg =
+  on "tap-button" (Decode.succeed msg)
 
+textAttr : String -> Attribute msg
+textAttr text = attribute "text" text
 
-onDecrement: Attribute Msg
-onDecrement =
-  on "tap-button" (Decode.succeed Decrement)
+nsButton : List (Attribute msg) -> List (Html msg) -> Html msg
+nsButton attrs children =
+  node "x-button" attrs children
 
-onReset: Attribute Msg
-onReset =
-  on "tap-button" (Decode.succeed Reset)
-
+nsText : String -> Html msg
+nsText text = node "x-text" [textAttr text] []
 
 view : Model -> Html Msg
 view model =
@@ -82,13 +83,13 @@ view model =
 
     maybeResetButton =
       if isEven then
-        node "x-button" [ attribute "text" "Reset", onReset ] []
+        nsButton [ textAttr "Reset", onTap Reset ] []
       else
         node "noscript" [] []
   in
   node "x-app" []
-    [ node "x-button" [ attribute "text" "Increment", onIncrement ] []
-    , node "x-text" [ attribute "text" (String.fromInt model) ] []
-    , node "x-button" [ attribute "text" "Decrement", onDecrement ] []
+    [ nsButton [ textAttr "Increment", onTap Increment ] []
+    , nsText (String.fromInt model)
+    , nsButton [ textAttr "Decrement", onTap Decrement ] []
     , maybeResetButton
     ]
