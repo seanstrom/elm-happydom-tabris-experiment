@@ -6,6 +6,7 @@ import * as allElements from './elements'
 
 import {
   withAttrs,
+  withProps,
   withCreate,
   withInitAndUpdate,
   withMountAndRender,
@@ -69,6 +70,7 @@ function init () {
   const app = {
     mixins: [
       withAttrs,
+      withProps,
       withCreate,
       withInitAndUpdate,
       withMountAndRender,

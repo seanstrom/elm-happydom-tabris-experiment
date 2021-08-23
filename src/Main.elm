@@ -14,6 +14,11 @@ import Html.Attributes exposing (attribute)
 import Json.Decode as Decode
 
 
+import Tabris.Widgets exposing (button, row, text)
+import Tabris.Widgets.Attributes as Attributes
+import Tabris.Widgets.Attributes.Button as BtnAttrs
+
+
 
 -- MAIN
 
@@ -66,30 +71,20 @@ onTap : msg -> Attribute msg
 onTap msg =
   on "tap-button" (Decode.succeed msg)
 
-textAttr : String -> Attribute msg
-textAttr text = attribute "text" text
-
-nsButton : List (Attribute msg) -> List (Html msg) -> Html msg
-nsButton attrs children =
-  node "x-button" attrs children
-
-nsText : String -> Html msg
-nsText text = node "x-text" [textAttr text] []
 
 view : Model -> Html Msg
 view model =
   let
     isEven = (modBy 2 model) == 0
-
     maybeResetButton =
       if isEven then
-        nsButton [ textAttr "Reset", onTap Reset ] []
+        button [ Attributes.text "Reset", onTap Reset ] []
       else
         node "noscript" [] []
   in
-  node "x-app" []
-    [ nsButton [ textAttr "Increment", onTap Increment ] []
-    , nsText (String.fromInt model)
-    , nsButton [ textAttr "Decrement", onTap Decrement ] []
-    , maybeResetButton
-    ]
+    row []
+      [ button [ Attributes.text "Increment", Attributes.background "#000", onTap Increment, BtnAttrs.textColor "red" ] []
+      , text (String.fromInt model)
+      , button [ Attributes.text "Decrement", onTap Decrement ] []
+      , maybeResetButton
+      ]

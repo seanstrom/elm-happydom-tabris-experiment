@@ -5,12 +5,27 @@ export const withAttrs = BaseElement =>
     }
 
     getAttributes () {
-      const getAttrs = (attrs, attrName) =>
-        Object.assign(attrs, {
-          [attrName]: this.getAttribute(attrName)
-        })
+      const getAttrs = (attrs, attrName) => {
+        const attr = this.getAttribute(attrName)
+
+        if (attr != null) {
+          Object.assign(attrs, {
+            [attrName]: attr
+          })
+        }
+
+        return attrs
+      }
 
       return this.constructor.observedAttributes.reduce(getAttrs, {})
+    }
+  }
+
+export const withProps = BaseElement =>
+  class extends BaseElement {
+    getProps () {
+      const attrs = this.getAttributes()
+      return this.attrsToProps ? this.attrsToProps(attrs) : attrs
     }
   }
 
@@ -30,7 +45,7 @@ export const withCreate = BaseElement =>
 export const withInitAndUpdate = BaseElement =>
   class extends BaseElement {
     attributeChangedCallback() {
-      this.attrs = this.getAttributes()
+      this.props = this.getProps()
 
       /**
        * Pre-Connect section, add code here to receive
@@ -38,7 +53,7 @@ export const withInitAndUpdate = BaseElement =>
       */
 
       if (!this.isConnected) {
-        this.init(this.attrs)
+        this.init(this.props)
         console.log(`${this.constructor.name} init`)
       }
 
@@ -48,7 +63,7 @@ export const withInitAndUpdate = BaseElement =>
       */
 
       if (this.isConnected) {
-        this.update(this.attrs, this.view)
+        this.update(this.props, this.view)
         console.log(`${this.constructor.name} update`)
       }
     }
@@ -63,7 +78,8 @@ export const withMountAndRender = BaseElement =>
       */
 
       if (this.isConnected) {
-        this.view = this.render(this.attrs, {
+        this.props = this.getProps()
+        this.view = this.render(this.props, {
           contentView: this.parentNode.view
         })
 

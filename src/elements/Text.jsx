@@ -20,8 +20,6 @@ const Text = {
 }
 
 Text.asElement = UIElement => {
-  console.log(Text.init)
-
   return class TextElement extends UIElement {
     static get observedAttributes() {
       return ['text']
