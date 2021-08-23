@@ -14,7 +14,7 @@ import Html.Attributes exposing (attribute)
 import Json.Decode as Decode
 
 
-import Tabris.Widgets exposing (button, row, stack, text)
+import Tabris.Widgets exposing (app, button, row, stack, text)
 import Tabris.Widgets.Attributes as Attributes
 import Tabris.Widgets.Attributes.Button as BtnAttrs
 
@@ -82,11 +82,17 @@ view model =
       else
         node "noscript" [] []
   in
-    stack [ Attributes.layoutData "stretch" ] [
-      row [ Attributes.alignment "centerY", Attributes.layoutData "center" ]
-        [ button [ Attributes.text "Increment", Attributes.background "#000", onTap Increment, BtnAttrs.textColor "red" ] []
-        , text (String.fromInt model)
-        , button [ Attributes.text "Decrement", onTap Decrement ] []
-        , maybeResetButton
+    app []
+      [ stack [ Attributes.layoutData "center", Attributes.alignment "centerX" ] [
+          row [ Attributes.alignment "centerY", Attributes.height "50" ]
+            [ button
+                [ Attributes.text "Increment"
+                , Attributes.background "#000"
+                , onTap Increment, BtnAttrs.textColor "red"
+                ] []
+            , text (String.fromInt model)
+            , button [ Attributes.text "Decrement", onTap Decrement ] []
+            , maybeResetButton
+            ]
         ]
-    ]
+      ]

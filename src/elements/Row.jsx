@@ -1,4 +1,4 @@
-import { Row as UIRow, contentView } from "tabris"
+import { Row as UIRow } from "tabris"
 
 import Widget from './Widget'
 import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
@@ -9,6 +9,7 @@ const Row = {
   update (attrs, view) {},
 
   render (attrs, context, handlers) {
+    const { contentView } = context
     const view = <UIRow {...attrs} />
     contentView.append(view)
     return view

@@ -14,6 +14,11 @@ text : String -> Html msg
 text data = node "x-text" [Attributes.text data] []
 
 
+app : List (Attribute msg) -> List (Html msg) -> Html msg
+app attrs children =
+  node "x-app" attrs children 
+
+
 row : List (Attribute msg) -> List (Html msg) -> Html msg
 row attrs children =
   node "x-row" attrs children

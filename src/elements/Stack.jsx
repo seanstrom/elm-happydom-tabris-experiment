@@ -1,4 +1,4 @@
-import { Stack as UIStack, contentView } from "tabris"
+import { Stack as UIStack } from "tabris"
 
 import Widget from './Widget'
 import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
@@ -9,6 +9,7 @@ const Stack = {
   update (props, view) {},
 
   render (props, context, handlers) {
+    const { contentView } = context
     const view = <UIStack {...props} />
     contentView.append(view)
     return view
