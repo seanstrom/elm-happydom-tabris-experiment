@@ -8,6 +8,14 @@ Widget.propNames = [
   'opacity',
   'highlightOnTouch',
   'cornerRadius',
+
+  'layoutData',
+  'height',
+  'width',
+  'left',
+  'right',
+  'bottom',
+  'top'
 ]
 
 export default Widget

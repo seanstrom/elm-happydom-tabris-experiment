@@ -17,3 +17,8 @@ text data = node "x-text" [Attributes.text data] []
 row : List (Attribute msg) -> List (Html msg) -> Html msg
 row attrs children =
   node "x-row" attrs children
+
+
+stack : List (Attribute msg) -> List (Html msg) -> Html msg
+stack attrs children =
+  node "x-stack" attrs children

@@ -16,6 +16,14 @@ text : String -> Attribute msg
 text data = attribute "text" data
 
 
+alignment : String -> Attribute msg
+alignment setting = attribute "alignment" setting
+
+
+spacing : String -> Attribute msg
+spacing setting = attribute "spacing" setting
+
+
 enabled : Bool -> Attribute msg
 enabled setting = attribute "enabled" (fromBool setting)
 
@@ -42,3 +50,31 @@ highlightOnTouch setting = attribute "highlightontouch" (fromBool setting)
 
 cornerRadius : Int -> Attribute msg
 cornerRadius radius = attribute "cornerradius" (String.fromInt radius)
+
+
+layoutData : String -> Attribute msg
+layoutData kind = attribute "layoutdata" kind
+
+
+height : String -> Attribute msg
+height setting = attribute "height" setting
+
+
+width : String -> Attribute msg
+width setting = attribute "width" setting
+
+
+left : String -> Attribute msg
+left setting = attribute "left" setting
+
+
+right : String -> Attribute msg
+right setting = attribute "right" setting
+
+
+top : String -> Attribute msg
+top setting = attribute "top" setting
+
+
+bottom : String -> Attribute msg
+bottom setting = attribute "bottom" setting

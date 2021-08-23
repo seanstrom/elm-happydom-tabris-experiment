@@ -1,5 +1,7 @@
 import { Button as UIButton } from 'tabris'
+
 import Widget from './Widget'
+import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
 
 const Button = {
   init (props) {},
@@ -55,23 +57,8 @@ Button.propNames = [
   'font'
 ].concat(Widget.propNames)
 
-Button.attributeNames = Button.propNames.map(name => name.toLowerCase())
-
-Button.attributeNameMap = Button.attributeNames.reduce((nameMap, attrName, index) => {
-  return Object.assign(nameMap, {
-    [attrName]: Button.propNames[index]
-  })
-}, {})
-
-Button.attrsToProps = attrs => {
-  const keys = Object.keys(attrs)
-  const toPropName = attrName => Button.attributeNameMap[attrName]
-
-  return keys.reduce((props, attrName) => {
-    return Object.assign(props, {
-      [toPropName(attrName)]: attrs[attrName]
-    })
-  }, {})
-}
+Button.attributeNames = propNamesToAttrNames(Button.propNames)
+Button.attributeNameMap = toAttrNameMap(Button.attributeNames, Button.propNames)
+Button.attrsToProps = attrsToProps(Button.attributeNameMap)
 
 export default Button
