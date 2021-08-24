@@ -76,23 +76,53 @@ view : Model -> Html Msg
 view model =
   let
     isEven = (modBy 2 model) == 0
-    maybeResetButton =
+    backgroundColor =
       if isEven then
-        button [ Attributes.text "Reset", onTap Reset ] []
+        "teal"
       else
-        node "noscript" [] []
+        "blue"
   in
-    app []
-      [ stack [ Attributes.layoutData "center", Attributes.alignment "centerX" ] [
-          row [ Attributes.alignment "centerY", Attributes.height "50" ]
-            [ button
-                [ Attributes.text "Increment"
-                , Attributes.background "#000"
-                , onTap Increment, BtnAttrs.textColor "red"
-                ] []
-            , text (String.fromInt model)
-            , button [ Attributes.text "Decrement", onTap Decrement ] []
-            , maybeResetButton
-            ]
+    app 
+      [ Attributes.layoutData "stretch"
+      , Attributes.background backgroundColor
+      , Attributes.padding [20, 20, 30]
+      ]
+      [ stack
+          [ Attributes.layoutData "stretch"
+          , Attributes.alignment "centerX"
+          , Attributes.background "yellow"
+          , Attributes.cornerRadius 4 
+          ] 
+          [ row
+              [ Attributes.alignment "centerY"
+              , Attributes.layoutData "stretchY"
+              , Attributes.background "red"
+              ]
+              [ stack
+                  [ Attributes.background "green"
+                  , Attributes.alignment "stretchX"
+                  , Attributes.spacing "20"
+                  ] 
+                  [ text
+                      [ Attributes.font "44px", Attributes.alignment "centerX" ]
+                      (String.fromInt model)
+                  , row 
+                      [ Attributes.spacing "10" ]
+                      [ button
+                          [ Attributes.text "Increment"
+                          , Attributes.background "#000"
+                          , BtnAttrs.textColor "red"
+                          , onTap Increment
+                          ] []
+                      , button
+                          [ Attributes.text "Decrement", onTap Decrement ] []
+                      ]
+                  , button
+                      [ Attributes.text "Reset"
+                      , onTap Reset
+                      , Attributes.bottom "0"
+                      ] []
+                  ]
+              ]
         ]
       ]
