@@ -82,3 +82,7 @@ bottom setting = attribute "bottom" setting
 
 image : String -> Attribute msg
 image src = attribute "image" src
+
+
+font : String -> Attribute msg
+font setting = attribute "font" setting

@@ -11,12 +11,8 @@ const Text = {
   },
 
   render (attrs, context) {
-    const { text } = attrs
     const { contentView } = context
-
-    const view =
-      <TextView centerY font='24px' text={text} />
-
+    const view = <TextView {...attrs} />
     contentView.append(view)
     return view
   },
@@ -36,7 +32,18 @@ Text.asElement = UIElement => {
 }
 
 Text.tagName = 'x-text'
-Text.propNames = ['text'].concat(Widget.propNames)
+
+Text.propNames = [
+  'text',
+  'font',
+  'alignment',
+  'lineSpacing',
+  'markupEnabled',
+  'maxLines',
+  'selectable',
+  'textColor'
+].concat(Widget.propNames)
+
 Text.attributeNames = propNamesToAttrNames(Text.propNames)
 Text.attributeNameMap = toAttrNameMap(Text.attributeNames, Text.propNames)
 Text.attrsToProps = attrsToProps(Text.attributeNameMap)

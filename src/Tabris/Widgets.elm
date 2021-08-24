@@ -10,8 +10,8 @@ button attrs children =
   node "x-button" attrs children
 
 
-text : String -> Html msg
-text data = node "x-text" [Attributes.text data] []
+text : List (Attribute msg) -> String -> Html msg
+text attrs data = node "x-text" ([Attributes.text data] ++ attrs) []
 
 
 app : List (Attribute msg) -> List (Html msg) -> Html msg
