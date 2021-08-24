@@ -15,7 +15,8 @@ Widget.propNames = [
   'left',
   'right',
   'bottom',
-  'top'
+  'top',
+  'padding',
 ]
 
 export default Widget

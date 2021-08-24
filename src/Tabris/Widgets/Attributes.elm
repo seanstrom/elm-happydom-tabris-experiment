@@ -1,7 +1,8 @@
 module Tabris.Widgets.Attributes exposing (..)
 
 import Html exposing (Attribute, node)
-import Html.Attributes exposing (attribute)
+import Html.Attributes exposing (attribute, property)
+import Json.Encode as Json
 
 
 
@@ -86,3 +87,7 @@ image src = attribute "image" src
 
 font : String -> Attribute msg
 font setting = attribute "font" setting
+
+
+padding : List Int -> Attribute msg
+padding style = property "padding" (Json.list Json.int style)
