@@ -1,4 +1,4 @@
-import { contentView } from "tabris"
+import { Composite, contentView as rootView } from "tabris"
 
 import Widget from './Widget'
 import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
@@ -9,7 +9,10 @@ const App = {
   update (attrs, view) {},
 
   render (attrs, context, handlers) {
-    return contentView
+    const { contentView = rootView } = context
+    const view = <Composite {...attrs} />
+    contentView.append(view)
+    return view
   },
 }
 
