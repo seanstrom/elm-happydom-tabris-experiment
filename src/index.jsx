@@ -1,5 +1,4 @@
 import { Window } from 'happy-dom'
-import { runInContext } from 'vm-shim'
 
 import Elm from './elm-dist/elm-bundle'
 import * as allElements from './elements'
@@ -13,6 +12,7 @@ import {
   withUnmount,
 } from './mixins'
 
+const { runInContext } = require('vm-shim')
 
 const initElements = params => {
   const { app, window } = params
