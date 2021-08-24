@@ -1,6 +1,6 @@
 import { Window } from 'happy-dom'
 
-import Elm from './elm-dist/elm-bundle'
+import Elm from './Main.elm'
 import * as allElements from './elements'
 
 import {
