@@ -4,15 +4,15 @@ import Widget from './Widget'
 import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
 
 const Text = {
-  init (attrs) {},
+  init (props) {},
 
-  update (attrs, view) {
-    view.text = attrs.text
+  update (props, view) {
+    Object.assign(view, props)
   },
 
-  render (attrs, context) {
+  render (props, context) {
     const { contentView } = context
-    const view = <TextView {...attrs} />
+    const view = <TextView {...props} />
     contentView.append(view)
     return view
   },

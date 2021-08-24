@@ -4,13 +4,15 @@ import Widget from './Widget'
 import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
 
 const App = {
-  init (attrs) {},
+  init (props) {},
 
-  update (attrs, view) {},
+  update (props, view) {
+    Object.assign(view, props)
+  },
 
-  render (attrs, context, handlers) {
+  render (props, context, handlers) {
     const { contentView = rootView } = context
-    const view = <Composite {...attrs} />
+    const view = <Composite {...props} />
     contentView.append(view)
     return view
   },

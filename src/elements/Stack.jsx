@@ -6,7 +6,9 @@ import { attrsToProps, propNamesToAttrNames, toAttrNameMap } from '../helpers'
 const Stack = {
   init (props) {},
 
-  update (props, view) {},
+  update (props, view) {
+    Object.assign(view, props)
+  },
 
   render (props, context, handlers) {
     const { contentView } = context

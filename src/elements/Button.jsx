@@ -7,7 +7,7 @@ const Button = {
   init (props) {},
 
   update (props, view) {
-    view.text = props.text
+    Object.assign(view, props)
   },
 
   render (props, context, handlers) {
