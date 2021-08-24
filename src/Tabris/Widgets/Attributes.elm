@@ -78,3 +78,7 @@ top setting = attribute "top" setting
 
 bottom : String -> Attribute msg
 bottom setting = attribute "bottom" setting
+
+
+image : String -> Attribute msg
+image src = attribute "image" src
