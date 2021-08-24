@@ -16,7 +16,7 @@ text attrs data = node "x-text" ([Attributes.text data] ++ attrs) []
 
 app : List (Attribute msg) -> List (Html msg) -> Html msg
 app attrs children =
-  node "x-app" attrs children 
+  node "x-app" attrs children
 
 
 row : List (Attribute msg) -> List (Html msg) -> Html msg
