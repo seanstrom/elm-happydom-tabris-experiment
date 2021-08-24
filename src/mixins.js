@@ -6,7 +6,7 @@ export const withAttrs = BaseElement =>
 
     getAttributes () {
       const getAttrs = (attrs, attrName) => {
-        const attr = this.getAttribute(attrName)
+        const attr = this.getAttribute(attrName) || (attrName !== 'style' ? this[attrName] : null)
 
         if (attr != null) {
           Object.assign(attrs, {
